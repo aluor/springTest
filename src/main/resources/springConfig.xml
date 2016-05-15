@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd"
+
+       default-init-method="init"
+       default-destroy-method="destroy">
+
+  <bean id="address" class="it.academy.Address" scope="prototype"
+    p:street="Kazintsa" p:home="25"/>
+
+  <bean id="person" class="it.academy.Person" scope="prototype"
+        p:address-ref="address"/>
+
+  <bean id="notifier" class="it.academy.Notifier"/>
+  <aop:config>
+    <aop:aspect ref="notifier">
+      <aop:pointcut id="advice" expression="execution(* *.getStreet(..))"/>
+      <aop:before pointcut-ref="advice" method="notifyBefore"/>
+      <aop:after pointcut-ref="advice" method="notifyAfter"/>
+    </aop:aspect>
+  </aop:config>
+
+</beans>
