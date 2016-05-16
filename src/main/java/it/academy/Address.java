@@ -1,6 +1,7 @@
 package it.academy;
 
 import org.apache.log4j.Logger;
+import java.util.List;
 
 /**
  * Created by Rabotnik on 05.05.2016.
@@ -10,6 +11,7 @@ public class Address implements IAddress{
   private int id;
   private String street;
   private int home;
+  private List<Integer> offices;
 
   public Address(int id, String street, int home) {
     this.id = id;
@@ -44,6 +46,14 @@ public class Address implements IAddress{
     this.home = home;
   }
 
+  public List<Integer> getOffices() {
+    return offices;
+  }
+
+  public void setOffices(List<Integer> offices) {
+    this.offices = offices;
+  }
+
   public void init() {
     log.info("address init...");
   }
@@ -54,9 +64,6 @@ public class Address implements IAddress{
 
   @Override
   public String toString() {
-    return "Address{" +
-        "street='" + street + '\'' +
-        ", home=" + home +
-        '}';
+    return "Address: street=\'"+street+"\' home="+home+" offices="+offices;
   }
 }

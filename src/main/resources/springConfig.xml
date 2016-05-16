@@ -12,7 +12,15 @@
        default-destroy-method="destroy">
 
   <bean id="address" class="it.academy.Address" scope="prototype"
-    p:street="Kazintsa" p:home="25"/>
+        p:street="Kazintsa" p:home="25">
+    <property name="offices">
+      <list>
+        <value>5</value>
+        <value>7</value>
+        <value>9</value>
+      </list>
+    </property>
+  </bean>
 
   <bean id="person" class="it.academy.Person" scope="prototype"
         p:address-ref="address"/>
