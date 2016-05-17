@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -20,12 +21,70 @@
         <value>9</value>
       </list>
     </property>
+
+    <!--
+    <set> могут применяться java.util.Set,
+    java.util.Collection или Array (например String[])
+    Вместо <value> можно указывать бин (тег <bean> - для
+    анонимного бина) или <ref-bean> - для существующего
+    в контексте бина
+    -->
+
+    <property name="officeNames">
+      <list>
+        <value>"SuperOffice"</value>
+        <value>"MegaOffice"</value>
+        <value>"SpaceOffice"</value>
+      </list>
+    </property>
   </bean>
 
   <bean id="person" class="it.academy.Person" scope="prototype"
         p:address-ref="address"/>
 
+  <bean id="mapBean" class="it.academy.MapBean" scope="prototype">
+    <property name="mapContent">
+      <map>
+        <entry key="10" value="Not bad"/>
+        <entry key="20" value="Good"/>
+        <entry key="30" value="Well done!"/>
+      </map>
+    </property>
+  </bean>
+
+  <!--
+  key – определяет ключ как String
+  key-ref – определяет ссылку на bean, который
+  используется в качестве ключа
+  value – определяет значение как String
+  value-ref – определяет ссылку на bean, который
+  используется в качестве значения
+  -->
+
+  <bean id="propertyBean" class="it.academy.PropertyBean" scope="prototype">
+    <property name="properties">
+      <props>
+        <prop key="Корабль">Ship</prop>
+        <prop key="Самолет">Plane</prop>
+        <prop key="Машина">Car</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="constructorBean" class="it.academy.ConstructorBean">
+    <constructor-arg name="constructorBeanName" index="0" value="myConstructorBeanName"/>
+  </bean>
+
+<bean id="nullValueBean" class="it.academy.NullValueBean">
+<property name="value">
+  <null/>
+</property>
+
+</bean>
+
+
   <bean id="notifier" class="it.academy.Notifier"/>
+
   <aop:config>
     <aop:aspect ref="notifier">
       <aop:pointcut id="advice" expression="execution(* *.getStreet(..))"/>

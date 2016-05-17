@@ -1,6 +1,8 @@
 package it.academy;
 
 import org.apache.log4j.Logger;
+
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,6 +14,7 @@ public class Address implements IAddress{
   private String street;
   private int home;
   private List<Integer> offices;
+  private Collection<String> officeNames;
 
   public Address(int id, String street, int home) {
     this.id = id;
@@ -54,6 +57,14 @@ public class Address implements IAddress{
     this.offices = offices;
   }
 
+  public Collection<String> getOfficeNames() {
+    return officeNames;
+  }
+
+  public void setOfficeNames(Collection<String> officeNames) {
+    this.officeNames = officeNames;
+  }
+
   public void init() {
     log.info("address init...");
   }
@@ -64,6 +75,6 @@ public class Address implements IAddress{
 
   @Override
   public String toString() {
-    return "Address: street=\'"+street+"\' home="+home+" offices="+offices;
+    return "Address: street=\'"+street+"\' home="+home+" offices="+offices+" officeNames="+ officeNames;
   }
 }

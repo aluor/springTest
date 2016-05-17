@@ -1,16 +1,16 @@
 package it.academy;
 
-import static java.lang.System.out;
+import org.apache.log4j.Logger;
 
 
 public class Notifier {
-
+  private static Logger log = Logger.getLogger(Notifier.class);
   public void notifyBefore(){
-    out.println("Notification before executing getStreet");
+    log.info("Method execution begin...");
   }
 
   public void notifyAfter(){
-    out.println("Notification after executing getStreet");
+    log.info("Method execution end");
   }
 
 }

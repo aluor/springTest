@@ -16,9 +16,20 @@ public class Main {
     ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
     Person person = (Person) context.getBean("person");
     Address address = (Address) person.getAddress();
-    System.out.println(address);
+    MapBean mapBean = (MapBean) context.getBean("mapBean");
+    PropertyBean propertyBean = (PropertyBean) context.getBean("propertyBean");
+    ConstructorBean constructorBean = (ConstructorBean) context.getBean("constructorBean");
+    NullValueBean nullValueBean = (NullValueBean) context.getBean("nullValueBean");
 
+    System.out.println(address);
     System.out.println(address.getStreet());
+    System.out.println(mapBean);
+    System.out.println(propertyBean);
+    System.out.println(constructorBean);
+    System.out.println(nullValueBean);
+
+
+    ((ClassPathXmlApplicationContext)context).close();
   }
 }
 
