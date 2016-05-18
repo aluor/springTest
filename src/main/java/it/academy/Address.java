@@ -15,11 +15,15 @@ public class Address implements IAddress{
   private int home;
   private List<Integer> offices;
   private Collection<String> officeNames;
+  private String email;
 
-  public Address(int id, String street, int home) {
+  public Address(int id, String street, int home, List<Integer> offices, Collection<String> officeNames, String email) {
     this.id = id;
     this.street = street;
     this.home = home;
+    this.offices = offices;
+    this.officeNames = officeNames;
+    this.email = email;
   }
 
   public Address() {
@@ -65,16 +69,31 @@ public class Address implements IAddress{
     this.officeNames = officeNames;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
   public void init() {
-    log.info("address init...");
+    log.info(this.getClass().getName()+" init...\n"+this);
   }
 
   public void destroy() {
-    log.info("address destroyed!");
+    log.info(this.getClass().getName()+" destroyed!");
   }
 
   @Override
   public String toString() {
-    return "Address: street=\'"+street+"\' home="+home+" offices="+offices+" officeNames="+ officeNames;
+    return "Address{" +
+        "id=" + id +
+        ", street='" + street + '\'' +
+        ", home=" + home +
+        ", offices=" + offices +
+        ", officeNames=" + officeNames +
+        ", email='" + email + '\'' +
+        '}';
   }
 }

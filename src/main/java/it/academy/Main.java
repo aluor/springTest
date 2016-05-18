@@ -14,20 +14,22 @@ public class Main {
 
   public static void main(String[] args) {
     ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
-    Person person = (Person) context.getBean("person");
-    Address address = (Address) person.getAddress();
-    MapBean mapBean = (MapBean) context.getBean("mapBean");
-    PropertyBean propertyBean = (PropertyBean) context.getBean("propertyBean");
-    ConstructorBean constructorBean = (ConstructorBean) context.getBean("constructorBean");
-    NullValueBean nullValueBean = (NullValueBean) context.getBean("nullValueBean");
 
-    System.out.println(address);
-    System.out.println(address.getStreet());
-    System.out.println(mapBean);
-    System.out.println(propertyBean);
-    System.out.println(constructorBean);
-    System.out.println(nullValueBean);
+//    Person person = (Person) context.getBean("person");
+//    MapBean mapBean = (MapBean) context.getBean("mapBean");
+//    PropertyBean propertyBean = (PropertyBean) context.getBean("propertyBean");
+//    ConstructorBean constructorBean = (ConstructorBean) context.getBean("constructorBean");
+//    NullValueBean nullValueBean = (NullValueBean) context.getBean("nullValueBean");
+//    CollectionBean collectionBean = (CollectionBean) context.getBean("collectionBean");
+//    Person person1 = (Person) context.getBean("person1");
+//    Person person2 = (Person) context.getBean("person2");
 
+
+// TODO: ПОЧЕМУ НЕ СУЖАЕТСЯ ТИП?!
+//    IAddress addressBean = (IAddress) context.getBean("address");
+//    Address address = (Address)person.getAddress();
+
+    ExpressionBean expressionBean = (ExpressionBean) context.getBean("expressionBean");
 
     ((ClassPathXmlApplicationContext)context).close();
   }

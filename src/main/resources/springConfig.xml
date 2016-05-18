@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd"
-
+       http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-init-method="init"
        default-destroy-method="destroy">
 
   <bean id="address" class="it.academy.Address" scope="prototype"
-        p:street="Kazintsa" p:home="25">
+        p:street="Kazintsa"
+        p:home="25"
+        p:email="aluor@mail.ru">
     <property name="offices">
       <list>
         <value>5</value>
@@ -21,7 +24,6 @@
         <value>9</value>
       </list>
     </property>
-
     <!--
     <set> могут применяться java.util.Set,
     java.util.Collection или Array (например String[])
@@ -29,7 +31,6 @@
     анонимного бина) или <ref-bean> - для существующего
     в контексте бина
     -->
-
     <property name="officeNames">
       <list>
         <value>"SuperOffice"</value>
@@ -39,7 +40,15 @@
     </property>
   </bean>
 
+  <!--типизатор Т для статического импорта.
+  address.street?.toUpperCase() - если адрес null - toUpperCase не вызовется.
+  Оператор Элвиса - adress.getStreet()?:'нет адреса'-->
+
   <bean id="person" class="it.academy.Person" scope="prototype"
+        p:kazintsa="#{address.street.equals('Kazintsa')}"
+        p:hasStreet="#{address.street?.toUpperCase()!=''?true:false}"
+        p:age="#{T(java.lang.Math).PI}"
+        p:name="#{mapBean.getMapContent().get(30)}"
         p:address-ref="address"/>
 
   <bean id="mapBean" class="it.academy.MapBean" scope="prototype">
@@ -71,16 +80,61 @@
     </property>
   </bean>
 
-  <bean id="constructorBean" class="it.academy.ConstructorBean">
-    <constructor-arg name="constructorBeanName" index="0" value="myConstructorBeanName"/>
+  <bean id="constructorBean" class="it.academy.ConstructorBean" c:_0="myConstructorBeanName">
+    <!-- или  можно так <constructor-arg name="constructorBeanName" index="0" value="myConstructorBeanName"/>-->
   </bean>
 
-<bean id="nullValueBean" class="it.academy.NullValueBean">
-<property name="value">
-  <null/>
-</property>
+  <bean id="nullValueBean" class="it.academy.NullValueBean">
+    <property name="value">
+      <null/>
+    </property>
+  </bean>
 
-</bean>
+  <!--создание бинов, содержащих коллекции-->
+  <bean id="collectionBean" class="it.academy.CollectionBean">
+    <property name="persons">
+      <list>
+        <bean class="it.academy.Person" scope="prototype"
+              p:kazintsa="#{address.street.equals('Kazintsa')}"
+              p:age="25"
+              p:name="#{mapBean.getMapContent().get(20)}"
+              p:address-ref="address"/>
+
+        <bean class="it.academy.Person" scope="prototype"
+              p:kazintsa="#{address.street.equals('Kazintsa')}"
+              p:age="40"
+              p:name="#{mapBean.getMapContent().get(10)}"
+              p:address-ref="address"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--использование EL в коллекциях-->
+  <util:list id="people">
+    <bean class="it.academy.Person" p:id="1" p:name="Igor" p:surname="Aliushkevich"/>
+    <bean class="it.academy.Person" p:id="2" p:name="Andrey" p:surname="Dovnar"/>
+    <bean class="it.academy.Person" p:id="3" p:name="Petr" p:surname="Fokin"/>
+  </util:list>
+
+  <bean id="person1" class="it.academy.Person"
+        p:name="#{people[0].name}" p:surname="#{people[0].surname}"/>
+
+  <bean id="person2" class="it.academy.Person"
+        p:name="#{people[1].name}" p:surname="#{people[1].surname}"/>
+
+  <!--Итоговый пример использования EL
+  (collectionBean.persons.![name] - срез по именам в коллекции)
+  (people.?[id gt 2] - логическое условие)
+  (people.^[id gt 1] - получение 1-го элемента)
+  (people.$[id gt 1] - получение последнего элемента)
+  TODO: Почему все, что берем у Address д.б. прописано в IAddress, иначе бин не создается?-->
+  <bean id="expressionBean" class="it.academy.ExpressionBean"
+        p:piValue="#{T(java.lang.Math).PI}"
+        p:someText="#{'Hello world!'}"
+        p:someCount="#{T(java.lang.Math).PI*45/12}"
+        p:emailLogic="#{address.email matches '[A-Za-z0-9+_.-]+@[a-zA-Z0-9.-]+'}"
+        p:personNames="#{collectionBean.persons.![name]}"
+  />
 
 
   <bean id="notifier" class="it.academy.Notifier"/>

@@ -2,21 +2,21 @@ package it.academy;
 
 import org.apache.log4j.Logger;
 
-import java.util.Properties;
+import java.util.Collection;
 
 /**
- * Created by Rabotnik on 16.05.2016.
+ * Created by Rabotnik on 18.05.2016.
  */
-public class PropertyBean {
+public class CollectionBean {
   private static Logger log = Logger.getLogger(Main.class);
-  private Properties properties;
+  private Collection<Person> persons;
 
-  public Properties getProperties() {
-    return properties;
+  public Collection<Person> getPersons() {
+    return persons;
   }
 
-  public void setProperties(Properties properties) {
-    this.properties = properties;
+  public void setPersons(Collection<Person> persons) {
+    this.persons = persons;
   }
 
   public void init() {
@@ -29,8 +29,8 @@ public class PropertyBean {
 
   @Override
   public String toString() {
-    return "PropertyBean{" +
-        "properties=" + properties +
+    return "CollectionBean{" +
+        "persons=" + persons +
         '}';
   }
 }
