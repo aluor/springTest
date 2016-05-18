@@ -30,6 +30,8 @@ public class Main {
 //    Address address = (Address)person.getAddress();
 
     ExpressionBean expressionBean = (ExpressionBean) context.getBean("expressionBean");
+    PersonAutoWired personAutoWired = (PersonAutoWired) context.getBean("personAutoWired");
+    PersonAutoWiredConstr personAutoWiredConstr = (PersonAutoWiredConstr) context.getBean("personAutoWiredConstr");
 
     ((ClassPathXmlApplicationContext)context).close();
   }

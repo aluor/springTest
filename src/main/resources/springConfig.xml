@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-init-method="init"
-       default-destroy-method="destroy">
+       default-destroy-method="destroy"> <!--default-autowire="byName"-->
 
   <bean id="address" class="it.academy.Address" scope="prototype"
         p:street="Kazintsa"
@@ -135,6 +135,27 @@
         p:emailLogic="#{address.email matches '[A-Za-z0-9+_.-]+@[a-zA-Z0-9.-]+'}"
         p:personNames="#{collectionBean.persons.![name]}"
   />
+
+  <!--AutoWiring-->
+  <bean id="personAutoWired" class="it.academy.PersonAutoWired" scope="prototype"
+        p:name="IgorAutoWired"
+        autowire="byType"/> <!--autowire="byName"-->
+
+  <bean id="personAutoWiredConstr" class="it.academy.PersonAutoWiredConstr" scope="prototype"
+        p:name="PavelAutoWiredConstr"
+        autowire="constructor"/>
+
+
+  <!--AutoWiring byType-->
+  <!--Вместо primary="true" (только для нужного) можно ставить для нужного к связыванию autowire-candidate="true" (но в этом случае - для остальных
+ придется ставить autowire-candidate="false"-->
+  <bean id="address2" class="it.academy.Address" scope="prototype" primary="true"
+        p:street="Lermontova"
+        p:home="116"
+        p:email="werdan@yahoo.com">
+  </bean>
+
+
 
 
   <bean id="notifier" class="it.academy.Notifier"/>
