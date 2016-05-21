@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by Rabotnik on 05.05.2016.
  */
+
 public class Address implements IAddress{
   private static Logger log = Logger.getLogger(Main.class);
   private int id;

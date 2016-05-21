@@ -1,6 +1,9 @@
 package it.academy;
 
+
+import it.academy.annotations.AddressAnnotated;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,8 +11,10 @@ import java.util.List;
 /**
  * Created by Rabotnik on 05.05.2016.
  */
+@AddressAnnotated
 public class Address2 implements IAddress{
   private static Logger log = Logger.getLogger(Main.class);
+  @Value("#{12345}") //можно задать id бина (засетать бин)
   private int id;
   private String street;
   private int home;

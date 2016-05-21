@@ -4,14 +4,23 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+
        default-init-method="init"
        default-destroy-method="destroy"> <!--default-autowire="byName"-->
+
+  <context:annotation-config/>
+  <context:component-scan base-package="it.academy"/>
 
   <bean id="address" class="it.academy.Address" scope="prototype"
         p:street="Kazintsa"
@@ -44,12 +53,12 @@
   address.street?.toUpperCase() - если адрес null - toUpperCase не вызовется.
   Оператор Элвиса - adress.getStreet()?:'нет адреса'-->
 
-  <bean id="person" class="it.academy.Person" scope="prototype"
+ <!-- <bean id="person" class="it.academy.Person" scope="prototype"
         p:kazintsa="#{address.street.equals('Kazintsa')}"
         p:hasStreet="#{address.street?.toUpperCase()!=''?true:false}"
         p:age="#{T(java.lang.Math).PI}"
         p:name="#{mapBean.getMapContent().get(30)}"
-        p:address-ref="address"/>
+        p:address-ref="address"/>  замаплено аннотациями -->
 
   <bean id="mapBean" class="it.academy.MapBean" scope="prototype">
     <property name="mapContent">
@@ -91,7 +100,7 @@
   </bean>
 
   <!--создание бинов, содержащих коллекции-->
-  <bean id="collectionBean" class="it.academy.CollectionBean">
+ <!-- <bean id="collectionBean" class="it.academy.CollectionBean">
     <property name="persons">
       <list>
         <bean class="it.academy.Person" scope="prototype"
@@ -107,10 +116,10 @@
               p:address-ref="address"/>
       </list>
     </property>
-  </bean>
+  </bean>-->
 
   <!--использование EL в коллекциях-->
-  <util:list id="people">
+ <!-- <util:list id="people">
     <bean class="it.academy.Person" p:id="1" p:name="Igor" p:surname="Aliushkevich"/>
     <bean class="it.academy.Person" p:id="2" p:name="Andrey" p:surname="Dovnar"/>
     <bean class="it.academy.Person" p:id="3" p:name="Petr" p:surname="Fokin"/>
@@ -120,7 +129,7 @@
         p:name="#{people[0].name}" p:surname="#{people[0].surname}"/>
 
   <bean id="person2" class="it.academy.Person"
-        p:name="#{people[1].name}" p:surname="#{people[1].surname}"/>
+        p:name="#{people[1].name}" p:surname="#{people[1].surname}"/>-->
 
   <!--Итоговый пример использования EL
   (collectionBean.persons.![name] - срез по именам в коллекции)
@@ -128,18 +137,17 @@
   (people.^[id gt 1] - получение 1-го элемента)
   (people.$[id gt 1] - получение последнего элемента)
   TODO: Почему все, что берем у Address д.б. прописано в IAddress, иначе бин не создается?-->
-  <bean id="expressionBean" class="it.academy.ExpressionBean"
+  <!--<bean id="expressionBean" class="it.academy.ExpressionBean"
         p:piValue="#{T(java.lang.Math).PI}"
         p:someText="#{'Hello world!'}"
         p:someCount="#{T(java.lang.Math).PI*45/12}"
         p:emailLogic="#{address.email matches '[A-Za-z0-9+_.-]+@[a-zA-Z0-9.-]+'}"
         p:personNames="#{collectionBean.persons.![name]}"
-  />
+  />-->
 
-  <!--AutoWiring-->
+  <!--AutoWired by annotation-->
   <bean id="personAutoWired" class="it.academy.PersonAutoWired" scope="prototype"
-        p:name="IgorAutoWired"
-        autowire="byType"/> <!--autowire="byName"-->
+        p:name="IgorAutoWired"/>
 
   <bean id="personAutoWiredConstr" class="it.academy.PersonAutoWiredConstr" scope="prototype"
         p:name="PavelAutoWiredConstr"
@@ -149,7 +157,7 @@
   <!--AutoWiring byType-->
   <!--Вместо primary="true" (только для нужного) можно ставить для нужного к связыванию autowire-candidate="true" (но в этом случае - для остальных
  придется ставить autowire-candidate="false"-->
-  <bean id="address2" class="it.academy.Address" scope="prototype" primary="true"
+  <bean id="address2" class="it.academy.Address2" scope="prototype"
         p:street="Lermontova"
         p:home="116"
         p:email="werdan@yahoo.com">

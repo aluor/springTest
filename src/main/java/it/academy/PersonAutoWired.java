@@ -1,6 +1,9 @@
 package it.academy;
 
+import it.academy.annotations.AddressAnnotated;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  * Created by Rabotnik on 05.05.2016.
@@ -10,6 +13,11 @@ public class PersonAutoWired {
   private Integer id;
   private String name;
   private String surname;
+
+
+  @Autowired
+//@Qualifier("address2")
+  @AddressAnnotated
   private IAddress address;
 
   public PersonAutoWired(Integer id, Double age, String name, String surname, IAddress address) {
@@ -50,16 +58,18 @@ public class PersonAutoWired {
     return address;
   }
 
+  //  @Autowired(required = false) //required = false - чтобы консекст поднялся, если address=null
+//  @Qualifier("address2")
   public void setAddress(IAddress address) {
     this.address = address;
   }
 
   public void init() {
-    log.info(this.getClass().getName()+" init...\n"+this);
+    log.info(this.getClass().getName() + " init...\n" + this);
   }
 
   public void destroy() {
-    log.info(this.getClass().getName()+" destroyed!");
+    log.info(this.getClass().getName() + " destroyed!");
   }
 
   @Override

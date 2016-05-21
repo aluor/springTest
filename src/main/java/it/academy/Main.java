@@ -29,7 +29,7 @@ public class Main {
 //    IAddress addressBean = (IAddress) context.getBean("address");
 //    Address address = (Address)person.getAddress();
 
-    ExpressionBean expressionBean = (ExpressionBean) context.getBean("expressionBean");
+//    ExpressionBean expressionBean = (ExpressionBean) context.getBean("expressionBean");
     PersonAutoWired personAutoWired = (PersonAutoWired) context.getBean("personAutoWired");
     PersonAutoWiredConstr personAutoWiredConstr = (PersonAutoWiredConstr) context.getBean("personAutoWiredConstr");
 
